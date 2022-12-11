@@ -11,6 +11,6 @@
 * Flexbox
 * Основы JavaScript
 
-Ссылка на страницу - 
+Ссылка на страницу - https://olgakurkina.github.io/mesto/
 
 Приятного просмотра!
