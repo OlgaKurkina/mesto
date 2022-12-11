@@ -1,0 +1,19 @@
+.element__like {
+    width: 22px;
+    height: 19px;
+    margin: 30px 3px 30px 0;
+    background-image: url(../../../images/Like_icon.svg);
+    object-fit: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    box-sizing: content-box;
+}
+
+.element__like:hover {
+    opacity: 50%;
+}
+
+.element__like:active {
+    opacity: 100%;
+    background-image: url(../../../images/Blacklike_icon.svg);
+}
