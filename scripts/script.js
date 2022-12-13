@@ -1,35 +1,40 @@
-const Popup = document.querySelector('.popup');
-const PopupEdit = document.querySelector('.profile__edit-button');
-const PopupClose = Popup.querySelector('.close-icon');
-let nameInfo = document.querySelector('.profile__user-name');
-let jobInfo = document.querySelector('.profile__user-description');
-let formElement = document.querySelector('.popup__container');
+const popup = document.querySelector('.popup');
+const popupEdit = document.querySelector('.profile__edit-button');
+const popupClose = popup.querySelector('.close-icon');
+let userName = document.querySelector('.profile__user-name');
+let userDescription = document.querySelector('.profile__user-description');
+let formElement = document.querySelector('.popup__form');
 let nameInput = document.querySelector('.popup__input_type_name');
 let jobInput = document.querySelector('.popup__input_type_job');
+let popupSubmit = document.querySelector('.popup__button');
 
-PopupEdit.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    Popup.classList.add('popup_opened')
+popupEdit.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  nameInput.value = userName.textContent;
+  jobInput.value = userDescription.textContent;
+  popup.classList.add('popup_opened');
 })
 
-PopupClose.addEventListener('click', () => {
-    Popup.classList.remove('popup_opened')
+popupClose.addEventListener('click', () => {
+  popup.classList.remove('popup_opened');
 })
 
 function handleFormSubmit(evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-    // Так мы можем определить свою логику отправки.
-    // О том, как это делать, расскажем позже.
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  // Так мы можем определить свою логику отправки.
+  // О том, как это делать, расскажем позже.
 
-    // Получите значение полей jobInput и nameInput из свойства value
+  // Получите значение полей jobInput и nameInput из свойства value
 
-    // Выберите элементы, куда должны быть вставлены значения полей
+  // Выберите элементы, куда должны быть вставлены значения полей
 
-    // Вставьте новые значения с помощью textContent
-    nameInfo.textContent = nameInput.value;
-    jobInfo.textContent = jobInput.value;
+  // Вставьте новые значения с помощью textContent
+  userName.textContent = nameInput.value;
+  userDescription.textContent = jobInput.value;
 }
-
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', handleFormSubmit);
+popupSubmit.addEventListener('click', () => {
+  popup.classList.remove('popup_opened');
+})

@@ -1,26 +1,28 @@
 .close-icon {
-    width: 32px;
-    height: 32px;
-    position: absolute;
-    top: -32px;
-    right: -32px;
-    background-image: url(../../images/Close_icon.svg);
-    object-fit: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    box-sizing: content-box;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: url(../../images/Close_icon.svg);
+  object-fit: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  box-sizing: content-box;
+  padding: 0;
+  border: none;
 }
 
 .close-icon:hover {
-    opacity: 60%;
+  opacity: 60%;
 }
 
 @media screen and (max-width: 767px) {
-    .close-icon {
-        width: 22px;
-        height: 22px;
-        top: -27px;
-        right: -0px;
-        background-size: 22px 22px;
-    }
+  .close-icon {
+    width: 20px;
+    height: 20px;
+    top: -36px;
+    right: -0px;
+    background-size: 20px 20px;
+  }
 }
