@@ -31,10 +31,9 @@ function handleFormSubmit(evt) {
   // Вставьте новые значения с помощью textContent
   userName.textContent = nameInput.value;
   userDescription.textContent = jobInput.value;
-  popupSubmit.addEventListener('click', () => {
-    popup.classList.remove('popup_opened');
-  })
+  popup.classList.remove('popup_opened');
 }
+
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', handleFormSubmit);
