@@ -1,16 +1,18 @@
-.element__like {
-  width: 22px;
+.element__trash {
+  width: 18px;
   height: 19px;
-  margin: 28px 0 30px 0;
+  position: absolute;
+  top: 20px;
+  right: 20px;
   padding: 0;
   border: none;
-  background: url(../../../images/Like_icon.svg);
+  background: url(../../../images/Trash.svg);
   object-fit: contain;
   background-repeat: no-repeat;
   cursor: pointer;
   box-sizing: content-box;
 }
 
-.element__like:hover {
+.element__trash:hover {
   opacity: 50%;
 }

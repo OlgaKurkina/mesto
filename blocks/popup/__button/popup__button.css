@@ -9,6 +9,7 @@
   padding: 14px 132px 18px 132px;
   border-radius: 2px;
   box-sizing: border-box;
+  width: 358px;
 }
 
 .popup__button:hover {
@@ -20,6 +21,6 @@
     margin-top: 15px;
     font-size: 14px;
     padding: 13px 82px 13px 82px;
-
+    width: 238px;
   }
 }
