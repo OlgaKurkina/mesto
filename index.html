@@ -33,54 +33,6 @@
     </section>
     <section class="elements" aria-label="Блок картинок">
       <ul class="elements__list">
-        <!--    <li class="element">
-          <img class="element__img" src="./images/Karachaevsk.png" alt="Карачаевск">
-          <button class="element__trash" type="button"></button>
-          <div class="element__content">
-            <h2 class="element__name">Карачаевск</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__img" src="./images/Elbrus.png" alt="Гора Эльбрус">
-          <button class="element__trash" type="button"></button>
-          <div class="element__content">
-            <h2 class="element__name">Гора Эльбрус</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__img" src="./images/Dombai.png" alt="Домбай">
-          <button class="element__trash" type="button"></button>
-          <div class="element__content">
-            <h2 class="element__name">Домбай</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__img" src="./images/Elbrus.png" alt="Гора Эльбрус">
-          <button class="element__trash" type="button"></button>
-          <div class="element__content">
-            <h2 class="element__name">Гора Эльбрус</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__img" src="./images/Dombai.png" alt="Домбай">
-          <button class="element__trash" type="button"></button>
-          <div class="element__content">
-            <h2 class="element__name">Домбай</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__img" src="./images/Karachaevsk.png" alt="Карачаевск">
-          <button class="element__trash" type="button"></button>
-          <div class="element__content">
-            <h2 class="element__name">Карачаево-Черкессия</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </li> -->
         <template id="element__template" class="element__template">
           <li class="element">
             <img class="element__img" alt="Новая картинка">
@@ -93,10 +45,10 @@
         </template>
       </ul>
     </section>
-    <div class="popup">
+    <div class="popup profile-popup">
       <div class="popup__container">
         <h2 class="popup__container-name">Редактировать профиль</h2>
-        <form class="popup__form" name="popup_edit-profile" method="post">
+        <form class="popup__form" name="profile-form" method="post">
           <input class="popup__input popup__input_type_name" type="text" name="name" id="name" placeholder="Имя"
             value="Жак Ив Кусто">
           <input class="popup__input popup__input_type_job" type="text" name="about" id="about" placeholder="О себе"
@@ -109,11 +61,11 @@
     <div class="popup popup_add-new">
       <div class="popup__container">
         <h2 class="popup__container-name">Новое место</h2>
-        <form class="popup__form popup__form-add" name="popup_new-element" method="post">
+        <form class="popup__form popup__form-add" name="form_add_card" method="post">
           <input class="popup__input popup__input_theme_light popup__input_type_element-name" type="text"
-            name="element-name" id="element-name" placeholder="Название" value="Название">
+            name="element-name" id="element-name" placeholder="Название">
           <input class="popup__input popup__input_theme_light popup__input_type_element-link" type="text"
-            name="element-link" id="element-link" placeholder="Ссылка на картинку" value="Ссылка на картинку">
+            name="element-link" id="element-link" placeholder="Ссылка на картинку">
           <button class="popup__button popup__button-save" type="submit" name="save" id="save">Создать</button>
         </form>
         <button class="close-icon"></button>
