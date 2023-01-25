@@ -47,13 +47,36 @@ const popupSubmit = profilePopup.querySelector(".popup__button");
 const titleInput = document.querySelector(".popup__input_type_element-name");
 const linkInput = document.querySelector(".popup__input_type_element-link");
 
-function openPopup(classAdd) {
-  classAdd.classList.add("popup_opened");
+const closeByEscape = (evt) => {
+  evt.preventDefault();
+  if (evt.key === "Escape") {
+    const activePopup = document.querySelector(".popup_opened");
+    closePopup(activePopup);
+  };
 };
 
 function closePopup(classRemove) {
+  document.removeEventListener("keyup", closeByEscape);
   classRemove.classList.remove("popup_opened");
 };
+
+function openPopup(classAdd) {
+  classAdd.classList.add("popup_opened");
+  document.addEventListener("keyup", closeByEscape);
+
+
+};
+
+document.addEventListener("click", function () {
+  const popupList = Array.from(document.querySelectorAll('.popup'));
+  popupList.forEach((popupItem) => {
+    popupItem.addEventListener('click', function (evt) {
+      if (evt.target.classList.contains("popup")) {
+        closePopup(popupItem);
+      };
+    });
+  });
+});
 
 profileEditButton.addEventListener("click", (evt) => {
   evt.preventDefault();

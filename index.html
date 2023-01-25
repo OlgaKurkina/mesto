@@ -48,11 +48,13 @@
     <div class="popup profile-popup">
       <div class="popup__container">
         <h2 class="popup__container-name">Редактировать профиль</h2>
-        <form class="popup__form" name="profile-form" method="post">
+        <form class="popup__form" name="profile-form" method="post" novalidate>
           <input class="popup__input popup__input_type_name" type="text" name="name" id="name" placeholder="Имя"
-            value="Жак Ив Кусто">
+            required minlength="2" maxlength="40">
+          <span class="popup__input-error name-error"></span>
           <input class="popup__input popup__input_type_job" type="text" name="about" id="about" placeholder="О себе"
-            value="Исследователь океана">
+            required minlength="2" maxlength="200">
+          <span class="popup__input-error about-error"></span>
           <button class="popup__button" type="submit" name="submit" id="submit">Сохранить</button>
         </form>
         <button class="close-icon"></button>
@@ -61,11 +63,13 @@
     <div class="popup popup_add-new">
       <div class="popup__container">
         <h2 class="popup__container-name">Новое место</h2>
-        <form class="popup__form popup__form-add" name="form_add_card" method="post">
+        <form class="popup__form popup__form-add" name="form_add_card" method="post" novalidate>
           <input class="popup__input popup__input_theme_light popup__input_type_element-name" type="text"
-            name="element-name" id="element-name" placeholder="Название">
-          <input class="popup__input popup__input_theme_light popup__input_type_element-link" type="text"
-            name="element-link" id="element-link" placeholder="Ссылка на картинку">
+            name="element-name" id="element-name" placeholder="Название" required minlength="2" maxlength="30">
+          <span class="popup__input-error element-name-error"></span>
+          <input class="popup__input popup__input_theme_light popup__input_type_element-link" type="url"
+            name="element-link" id="element-link" placeholder="Ссылка на картинку" required>
+          <span class="popup__input-error element-link-error"></span>
           <button class="popup__button popup__button-save" type="submit" name="save" id="save">Создать</button>
         </form>
         <button class="close-icon"></button>
@@ -83,6 +87,7 @@
     <p class="footer__copyright">&copy;2022.Mesto Russia</p>
   </footer>
   <script src="./scripts/script.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>
