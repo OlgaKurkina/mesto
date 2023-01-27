@@ -8,7 +8,7 @@
   row-gap: 18px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 950px) {
   .elements__list {
     justify-content: center;
     row-gap: 17px;

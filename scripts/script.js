@@ -47,6 +47,7 @@ const popupSubmit = profilePopup.querySelector(".popup__button");
 const titleInput = document.querySelector(".popup__input_type_element-name");
 const linkInput = document.querySelector(".popup__input_type_element-link");
 
+//фунция закрытия по esc
 const closeByEscape = (evt) => {
   evt.preventDefault();
   if (evt.key === "Escape") {
@@ -55,29 +56,29 @@ const closeByEscape = (evt) => {
   };
 };
 
+//универсальная функция закрытия попап
 function closePopup(classRemove) {
   document.removeEventListener("keyup", closeByEscape);
   classRemove.classList.remove("popup_opened");
 };
 
+//универсальная функция открытия попап
 function openPopup(classAdd) {
   classAdd.classList.add("popup_opened");
   document.addEventListener("keyup", closeByEscape);
-
-
 };
 
-document.addEventListener("click", function () {
-  const popupList = Array.from(document.querySelectorAll('.popup'));
-  popupList.forEach((popupItem) => {
-    popupItem.addEventListener('click', function (evt) {
-      if (evt.target.classList.contains("popup")) {
-        closePopup(popupItem);
-      };
-    });
+//функция закрытия попап по оверлей
+const popupList = Array.from(document.querySelectorAll('.popup'));
+popupList.forEach((popupItem) => {
+  popupItem.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains("popup")) {
+      closePopup(popupItem);
+    };
   });
 });
 
+//вешаем слушатель на форму и записываем введенные данные в инпуты
 profileEditButton.addEventListener("click", (evt) => {
   evt.preventDefault();
   nameInput.value = profileUserName.textContent;
@@ -85,15 +86,18 @@ profileEditButton.addEventListener("click", (evt) => {
   openPopup(profilePopup);
 });
 
+//закрываем попап по клику на крестик
 profileEditCloseButton.addEventListener("click", () => {
   closePopup(profilePopup);
 });
 
+//открываем попап по клику на кнопку
 profileAddButton.addEventListener("click", (evt) => {
   evt.preventDefault();
   openPopup(popupAddNewCard);
 });
 
+//закрываем попап по клику на крестик
 popupAddNewCardCloseButton.addEventListener("click", () => {
   closePopup(popupAddNewCard);
 });
@@ -107,14 +111,17 @@ function handleProfileFormSubmit(evt) {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
+//функция удаления картинки
 function deleteElement(event) {
   event.target.closest(".element").remove();
 };
 
+//функция лайка
 function likeElement(event) {
   event.target.closest(".element__like").classList.toggle("element__like_active");
 };
 
+//обработчик слушателей
 function addCardEventListeners(newElement) {
   const buttonLike = newElement.querySelector(".element__like");
   const buttonDelete = newElement.querySelector(".element__trash");
@@ -122,6 +129,7 @@ function addCardEventListeners(newElement) {
   buttonDelete.addEventListener("click", deleteElement);
 };
 
+//создание новой карточки
 function createCards(element) {
   const newElement = elementTemplate.cloneNode(true);
   const popupOpenPic = newElement.querySelector(".element__img");
@@ -138,10 +146,12 @@ function createCards(element) {
   return newElement;
 };
 
+//функция закрытия карточки по крестику
 popupOpenImageCloseButton.addEventListener("click", () => {
   closePopup(popupOpenImage);
 });
 
+//функция добавления нового элемента в начало
 function addElement(newElement) {
   elementContainer.prepend(newElement);
 };
@@ -161,8 +171,8 @@ function handleAddFormSubmit(event) {
     link: linkInput.value,
   });
   addElement(newCard);
-  event.target.reset();
   closePopup(popupAddNewCard);
+  event.target.reset();
 };
 
 formAddCard.addEventListener("submit", handleAddFormSubmit);
