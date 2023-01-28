@@ -67,7 +67,7 @@ const setEventListeners = (formElement, objectValidation) => {
 //функция отключения кнопки при открытии формы
 function disabledButton(formElement, objectValidation) {
   const buttonElement = formElement.querySelector(objectValidation.submitButtonSelector);
-  buttonElement.classList.remove(objectValidation.inactiveButtonClass);
+  buttonElement.classList.add(objectValidation.inactiveButtonClass);
   buttonElement.setAttribute("disabled", "disabled");
 };
 
