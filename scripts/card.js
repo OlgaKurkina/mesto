@@ -11,6 +11,7 @@ class Card {
 		this._deleteButton = this._element.querySelector('.element__trash');
 	}
 
+	//получаем разметку
 	_getTemplate() {
 		const cardElement = document.querySelector(this._template)
 			.content
@@ -19,6 +20,7 @@ class Card {
 		return cardElement;
 	}
 
+	//создаем карточку
 	generateCard() {
 		this._cardTitile.textContent = this._name;
 		this._cardImage.src = this._link;
@@ -27,14 +29,17 @@ class Card {
 		return this._element;
 	}
 
+	//метод удаления карточки
 	_deleteCard() {
 		this._element.remove();
 	}
 
+	//метод установка лайка
 	_likeCard() {
 		this._likeButton.classList.toggle('element__like_active');
 	}
 
+	//слушатели событый
 	_setEventListeners() {
 		this._deleteButton.addEventListener('click', () => {
 			this._deleteCard();

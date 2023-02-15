@@ -10,6 +10,7 @@ class FormValidator {
 		this._errorClass = config.errorClass;
 	}
 
+	//метод показа ошибки
 	_showInputError(inputElement) {
 		const formError = this._formElement.querySelector(`.${inputElement.id}-error`);
 		inputElement.classList.add(this._inputErrorClass);
