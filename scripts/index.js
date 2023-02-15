@@ -1,5 +1,5 @@
-import Card from "../scripts/card.js"
-import FormValidator from "../scripts/formvalidator.js"
+import Card from "../scripts/Card.js"
+import FormValidator from "./FormValidator.js"
 
 const initialCards = [
 	{
@@ -28,7 +28,7 @@ const initialCards = [
 	},
 ];
 
-export const config = {
+const config = {
 	selectorTemplate: '.element__template',
 	formSelector: '.popup__form',
 	inputSelector: '.popup__input',
@@ -41,13 +41,9 @@ export const config = {
 export const popupOpenImage = document.querySelector(".popup_open-img"); // попап открытия картинки
 export const popupImage = popupOpenImage.querySelector(".popup__image");
 export const popupImageTitle = popupOpenImage.querySelector(".popup__image-title");
-export const popupElement = document.querySelector('.popup');
 const profilePopup = document.querySelector(".profile-popup"); // попап профиля
 const popupAddNewCard = document.querySelector(".popup_add-new"); // попап добавления картинки
 const profileEditButton = document.querySelector(".profile__edit-button"); //кнопка редактирования профиля
-const profileEditCloseButton = profilePopup.querySelector(".close-icon"); //кнопка закрытия профиля
-const popupAddNewCardCloseButton = popupAddNewCard.querySelector('.close-icon'); // кнопка закрытия попап с добавлением фото
-const popupOpenImageCloseButton = popupOpenImage.querySelector('.close-icon'); //кнопка закрытия фотографии
 const profileAddButton = document.querySelector(".profile__add-button");
 const elementContainer = document.querySelector(".elements__list");
 const formAddCard = document.forms['form_add_card']; // форма добавления картинки
@@ -58,13 +54,19 @@ const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_job");
 const titleInput = document.querySelector(".popup__input_type_element-name");
 const linkInput = document.querySelector(".popup__input_type_element-link");
-
+const closeButtons = document.querySelectorAll('.close-icon'); // находим все крестики проекта по универсальному селектору
 const profilePopupValidation = new FormValidator(config, profilePopup);
 const addPopupValidation = new FormValidator(config, popupAddNewCard);
 
 profilePopupValidation.enableValidation();
 addPopupValidation.enableValidation();
 
+closeButtons.forEach((button) => {
+	// находим 1 раз ближайший к крестику попап 
+	const popup = button.closest('.popup');
+	// устанавливаем обработчик закрытия на крестик
+	button.addEventListener('click', () => closePopup(popup));
+});
 
 //фунция закрытия по esc
 const closeByEscape = (evt) => {
@@ -87,6 +89,13 @@ export function openPopup(classAdd) {
 	document.addEventListener("keyup", closeByEscape);
 };
 
+function openPopupImg(name, link) {
+	popupImage.src = link;
+	popupImageTitle.textContent = name;
+	popupImage.alt = name;
+	openPopup(popupOpenImage);
+}
+
 //функция закрытия попап по оверлей
 const popupList = Array.from(document.querySelectorAll('.popup'));
 popupList.forEach((popupItem) => {
@@ -105,20 +114,10 @@ profileEditButton.addEventListener("click", (evt) => {
 	openPopup(profilePopup);
 });
 
-//закрываем попап по клику на крестик
-profileEditCloseButton.addEventListener("click", () => {
-	closePopup(profilePopup);
-});
-
 //открываем попап по клику на кнопку
 profileAddButton.addEventListener("click", (evt) => {
 	evt.preventDefault();
 	openPopup(popupAddNewCard);
-});
-
-//закрываем попап по клику на крестик
-popupAddNewCardCloseButton.addEventListener("click", () => {
-	closePopup(popupAddNewCard);
 });
 
 function handleProfileFormSubmit(evt) {
@@ -130,14 +129,9 @@ function handleProfileFormSubmit(evt) {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
-//функция закрытия карточки по крестику
-popupOpenImageCloseButton.addEventListener("click", () => {
-	closePopup(popupOpenImage);
-});
-
 //функция создания карточки
 function createCard(item) {
-	const newCard = new Card(config.selectorTemplate, item, openPopup)
+	const newCard = new Card(config.selectorTemplate, item, openPopupImg)
 	const cardElement = newCard.generateCard();
 	return cardElement;
 };

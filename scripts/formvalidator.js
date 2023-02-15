@@ -1,5 +1,3 @@
-import { config } from "../scripts/index.js"
-
 class FormValidator {
 	constructor(config, formElement) {
 		this._config = config;
@@ -7,19 +5,23 @@ class FormValidator {
 		this._inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
 		this._buttonElement = formElement.querySelector(config.submitButtonSelector);
 		this._formList = Array.from(document.querySelectorAll(config.formSelector));
+		this._inactiveButtonClass = config.inactiveButtonClass;
+		this._inputErrorClass = config.inputErrorClass;
+		this._errorClass = config.errorClass;
 	}
+
 	_showInputError(inputElement) {
 		const formError = this._formElement.querySelector(`.${inputElement.id}-error`);
-		inputElement.classList.add(config.inputErrorClass);
-		formError.classList.add(config.errorClass);
+		inputElement.classList.add(this._inputErrorClass);
+		formError.classList.add(this._errorClass);
 		formError.textContent = inputElement.validationMessage;
 	}
 
 	//метод скрытия ошибки
 	_hideInputError = (inputElement) => {
 		const formError = this._formElement.querySelector(`.${inputElement.id}-error`);
-		inputElement.classList.remove(config.inputErrorClass);
-		formError.classList.remove(config.errorClass);
+		inputElement.classList.remove(this._inputErrorClass);
+		formError.classList.remove(this._errorClass);
 		formError.textContent = '';
 	};
 
@@ -40,20 +42,25 @@ class FormValidator {
 		});
 	};
 
+	//метод отключения кнопки при открытии формы
+	_disabledButton() {
+		this._buttonElement.classList.add(this._inactiveButtonClass);
+		this._buttonElement.setAttribute("disabled", "disabled");
+	};
+
 	//метод переключения кнопки
 	_toggleButtonState = () => {
+
 		if (this._hasInvalidInput()) {
-			this._buttonElement.classList.add(config.inactiveButtonClass);
-			this._buttonElement.setAttribute("disabled", "disabled");
+			this._disabledButton()
 		}
 		else {
-			this._buttonElement.classList.remove(config.inactiveButtonClass);
+			this._buttonElement.classList.remove(this._inactiveButtonClass);
 			this._buttonElement.removeAttribute("disabled", "disabled");
 		};
 	};
 
 	_setEventListeners = () => {
-
 		this._toggleButtonState();
 		this._inputList.forEach((inputElement) => {
 			inputElement.addEventListener("input", () => {
@@ -61,12 +68,6 @@ class FormValidator {
 				this._toggleButtonState();
 			});
 		});
-	};
-
-	//метод отключения кнопки при открытии формы
-	_disabledButton() {
-		this._buttonElement.classList.add(config.inactiveButtonClass);
-		this._buttonElement.setAttribute("disabled", "disabled");
 	};
 
 	//метод проверки валидности каждой формы и показа/скрытия ошибок 
