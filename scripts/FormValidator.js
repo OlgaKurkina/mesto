@@ -6,7 +6,6 @@ class FormValidator {
 		this._inputErrorClass = config.inputErrorClass;
 		this._errorClass = config.errorClass;
 		this._buttonElement = formElement.querySelector(config.submitButtonSelector);
-		this._formList = Array.from(document.querySelectorAll(config.formSelector));
 		this._inactiveButtonClass = config.inactiveButtonClass;
 	}
 
@@ -73,13 +72,11 @@ class FormValidator {
 
 	//метод проверки валидности каждой формы и показа/скрытия ошибок 
 	enableValidation() {
-		this._formList.forEach((_formElement) => {
-			this._formElement.addEventListener("submit", (evt) => {
-				evt.preventDefault();
-				this._disabledButton();
-			});
-			this._setEventListeners();
+		this._formElement.addEventListener("submit", (evt) => {
+			evt.preventDefault();
+			this._disabledButton();
 		});
+		this._setEventListeners();
 	};
 
 }
