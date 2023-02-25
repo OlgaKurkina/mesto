@@ -1,18 +1,16 @@
-const myCity = {
-    city: 'Mos',
-    pop: true,
-    country: 'RF',
-    cityGreeting() {
-        console.log('Hi!')
-    },
-    people: {
-        men: 1000,
-        women: 1100
-    }
-}
+// измените код функции countUserPosts
+const countUserPosts = ({ posts }) => {
+    return posts.length;
+};
 
-console.log(myCity.people.men)
+const user1 = {
+    id: 2294611830,
+    username: 'leonardo.dv',
+    posts: [
+        { comment: 'Витрувианский человек', dateCreated: 1490 },
+        { comment: 'Портрет музыканта', dateCreated: 1490 },
+        { comment: 'Автопортрет в Турине #selfie', dateCreated: 1512 },
+    ]
+};
 
-console.log(myCity.cityGreeting())
-
-
+console.log(countUserPosts(user1)); // 3

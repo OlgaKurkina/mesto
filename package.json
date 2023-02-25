@@ -1,0 +1,20 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "* Профиль пользователя\r * Карточки с картинками\r * Popup для изменения данных пользователя\r * Popup для добавления новой картинки\r * Просмотр картинки в модальном окне",
+  "main": "tren.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlgaKurkina/mesto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OlgaKurkina/mesto/issues"
+  },
+  "homepage": "https://github.com/OlgaKurkina/mesto#readme"
+}
