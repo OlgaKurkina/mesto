@@ -134,13 +134,6 @@ function addElement(newElement) {
 	elementContainer.prepend(newElement);
 };
 
-//function renderElements() {
-//	initialCards.forEach((element) => {
-//		const elementHTML = createCard(element);
-//		elementContainer.append(elementHTML);
-//
-//	});
-//};
 
 const cardList = new Section({
 	data: initialCards,
