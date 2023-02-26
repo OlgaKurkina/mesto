@@ -1,6 +1,7 @@
 import Card from "./utils/Card.js"
 import FormValidator from "./utils/FormValidator.js"
-//import Section from "./utils/Section.js"
+import Section from "./utils/Section.js"
+import Popup from "./utils/Popup.js"
 import PopupWithImage from "./utils/PopupWithImage.js"
 import PopupWithForm from "./utils/PopupWithForm.js"
 //import UserInfo from "./utils/UserInfo.js"
@@ -74,44 +75,13 @@ popupWithProfile.setEventListeners();
 const popupWithImage = new PopupWithImage(popupOpenImage);
 popupWithImage.setEventListeners();
 
-popupImage.addEventListener('click', () => {
-	popupWithImage.open();
-})
 
-//closeButtons.forEach((button) => {
-//	// находим 1 раз ближайший к крестику попап 
-//	const popup = button.closest('.popup');
-//	// устанавливаем обработчик закрытия на крестик
-//	button.addEventListener('click', () => closePopup(popup));
-//});
-
-//фунция закрытия по esc
-//const closeByEscape = (evt) => {
-//	evt.preventDefault();
-//	if (evt.key === "Escape") {
-//		const activePopup = document.querySelector(".popup_opened");
-//		close(activePopup);
-//	};
-//};
-
-//универсальная функция закрытия попап
-//function closePopup(classRemove) {
-//	document.removeEventListener("keyup", closeByEscape);
-//	classRemove.classList.remove("popup_opened");
-//};
-
-//универсальная функция открытия попап
-//export function openPopup(classAdd) {
-//	classAdd.classList.add("popup_opened");
-//	document.addEventListener("keyup", closeByEscape);
-//};
-
-function openPopupImg(name, link) {
-	popupImage.src = link;
-	popupImageTitle.textContent = name;
-	popupImage.alt = name;
-	open(popupOpenImage);
-}
+//function openPopupImg(name, link) {
+//	popupImage.src = link;
+//	popupImageTitle.textContent = name;
+//	popupImage.alt = name;
+//	openPopup(popupOpenImage);
+//}
 
 //функция закрытия попап по оверлей
 //const popupList = Array.from(document.querySelectorAll('.popup'));
@@ -124,32 +94,38 @@ function openPopupImg(name, link) {
 //});
 
 //вешаем слушатель на форму и записываем введенные данные в инпуты
-profileEditButton.addEventListener("click", (evt) => {
-	evt.preventDefault();
-	nameInput.value = profileUserName.textContent;
-	jobInput.value = profileUserDescription.textContent;
-	open(profilePopup);
-});
-
-//открываем попап по клику на кнопку
-profileAddButton.addEventListener("click", (evt) => {
-	evt.preventDefault();
-	open(popupAddNewCard);
-});
-
-function handleProfileFormSubmit(evt) {
-	evt.preventDefault();
-	profileUserName.textContent = nameInput.value;
-	profileUserDescription.textContent = jobInput.value;
-	close(profilePopup);
-};
-
-profileForm.addEventListener("submit", handleProfileFormSubmit);
+//profileEditButton.addEventListener("click", (evt) => {
+//	evt.preventDefault();
+//	nameInput.value = profileUserName.textContent;
+//	jobInput.value = profileUserDescription.textContent;
+//	openPopup(profilePopup);
+//});
+//
+////открываем попап по клику на кнопку
+//profileAddButton.addEventListener("click", (evt) => {
+//	evt.preventDefault();
+//	openPopup(popupAddNewCard);
+//});
+//
+//function handleProfileFormSubmit(evt) {
+//	evt.preventDefault();
+//	profileUserName.textContent = nameInput.value;
+//	profileUserDescription.textContent = jobInput.value;
+//	closePopup(profilePopup);
+//};
+//
+//profileForm.addEventListener("submit", handleProfileFormSubmit);
 
 //функция создания карточки
 function createCard(item) {
-	const newCard = new Card(config.selectorTemplate, item, openPopupImg)
+	const newCard = new Card({
+		item,
+		template: config.selectorTemplate,
+		handleCardClick: () =>
+			openPopup(item)
+	});
 	const cardElement = newCard.generateCard();
+
 	return cardElement;
 };
 
@@ -158,13 +134,23 @@ function addElement(newElement) {
 	elementContainer.prepend(newElement);
 };
 
-function renderElements() {
-	initialCards.forEach((element) => {
-		const elementHTML = createCard(element);
-		elementContainer.append(elementHTML);
+//function renderElements() {
+//	initialCards.forEach((element) => {
+//		const elementHTML = createCard(element);
+//		elementContainer.append(elementHTML);
+//
+//	});
+//};
 
-	});
-};
+const cardList = new Section({
+	data: initialCards,
+	renderer: (item) => {
+		const card = createCard(item);
+		cardList.addCard(card)
+	},
+}, '.elements__list');
+
+cardList.renderCards();
 
 function handleFormSubmit(event) {
 	event.preventDefault();
@@ -174,9 +160,9 @@ function handleFormSubmit(event) {
 		link: linkInput.value,
 	});
 	addElement(newCard);
-	close(popupAddNewCard);
+	closePopup(popupAddNewCard);
 	event.target.reset();
 };
 
 formAddCard.addEventListener("submit", handleFormSubmit);
-renderElements();
+//renderElements();
