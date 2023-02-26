@@ -5,20 +5,15 @@ class UserInfo {
     }
 
     getUserInfo() {
-        this._inputList = this._element.querySelectorAll('.popup__input');
-        this._formValues = {};
-        this._inputList.forEach(input => {
-            this._formValues[input.name] = nameInput.value;
-            this._formValues[input.job] = jobInput.value;
-        });
+        return {
+            name: this._userName.textContent,
+            job: this._userJob.textContent
+        }
+    };
 
-        // возвращаем объект значений
-        return this._formValues;
-    }
-
-    setUserInfo() {
-        nameInput.value = profileUserName.textContent;
-        jobInput.value = profileUserDescription.textContent;
+    setUserInfo(info) {
+        this._userName.textContent = info.name;
+        this._userJob.textContent = info.job
     }
 }
 

@@ -1,10 +1,9 @@
 import Card from "./utils/Card.js"
 import FormValidator from "./utils/FormValidator.js"
 import Section from "./utils/Section.js"
-import Popup from "./utils/Popup.js"
 import PopupWithImage from "./utils/PopupWithImage.js"
 import PopupWithForm from "./utils/PopupWithForm.js"
-//import UserInfo from "./utils/UserInfo.js"
+import UserInfo from "./utils/UserInfo.js"
 
 const initialCards = [
 	{
@@ -75,38 +74,24 @@ popupWithProfile.setEventListeners();
 const popupWithImage = new PopupWithImage(popupOpenImage);
 popupWithImage.setEventListeners();
 
+const userInfo = new UserInfo({
+	userName: '.popup__input_type_name',
+	userJob: '.popup__input_type_job'
+})
 
-//function openPopupImg(name, link) {
-//	popupImage.src = link;
-//	popupImageTitle.textContent = name;
-//	popupImage.alt = name;
-//	openPopup(popupOpenImage);
-//}
+profileEditButton.addEventListener("click", (evt) => {
+	evt.preventDefault();
+	const info = userInfo.getUserInfo();
 
-//функция закрытия попап по оверлей
-//const popupList = Array.from(document.querySelectorAll('.popup'));
-//popupList.forEach((popupItem) => {
-//	popupItem.addEventListener('click', function (evt) {
-//		if (evt.target.classList.contains("popup")) {
-//			closePopup(popupItem);
-//		};
-//	});
-//});
+	popupWithProfile.openPopup();
+});
 
-//вешаем слушатель на форму и записываем введенные данные в инпуты
-//profileEditButton.addEventListener("click", (evt) => {
-//	evt.preventDefault();
-//	nameInput.value = profileUserName.textContent;
-//	jobInput.value = profileUserDescription.textContent;
-//	openPopup(profilePopup);
-//});
-//
-////открываем попап по клику на кнопку
-//profileAddButton.addEventListener("click", (evt) => {
-//	evt.preventDefault();
-//	openPopup(popupAddNewCard);
-//});
-//
+//открываем попап по клику на кнопку
+profileAddButton.addEventListener("click", (evt) => {
+	evt.preventDefault();
+	popupWithForm.openPopup();
+});
+
 //function handleProfileFormSubmit(evt) {
 //	evt.preventDefault();
 //	profileUserName.textContent = nameInput.value;
@@ -122,7 +107,7 @@ function createCard(item) {
 		item,
 		template: config.selectorTemplate,
 		handleCardClick: () =>
-			openPopup(item)
+			popupWithImage.openPopup(item)
 	});
 	const cardElement = newCard.generateCard();
 
@@ -153,9 +138,8 @@ function handleFormSubmit(event) {
 		link: linkInput.value,
 	});
 	addElement(newCard);
-	closePopup(popupAddNewCard);
+	popupWithForm.closePopup();
 	event.target.reset();
 };
 
 formAddCard.addEventListener("submit", handleFormSubmit);
-//renderElements();
