@@ -1,9 +1,11 @@
-import Card from "./utils/Card.js"
-import FormValidator from "./utils/FormValidator.js"
-import Section from "./utils/Section.js"
-import PopupWithImage from "./utils/PopupWithImage.js"
-import PopupWithForm from "./utils/PopupWithForm.js"
-import UserInfo from "./utils/UserInfo.js"
+import '../pages/index.css';
+
+import Card from "../components/Card.js"
+import FormValidator from "../components/FormValidator.js"
+import Section from "../components/Section.js"
+import PopupWithImage from "../components/PopupWithImage.js"
+import PopupWithForm from "../components/PopupWithForm.js"
+import UserInfo from "../components/UserInfo.js"
 
 const initialCards = [
 	{
@@ -58,33 +60,24 @@ const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_job");
 const titleInput = document.querySelector(".popup__input_type_element-name");
 const linkInput = document.querySelector(".popup__input_type_element-link");
-const closeButtons = document.querySelectorAll('.close-icon'); // находим все крестики проекта по универсальному селектору
 const profilePopupValidation = new FormValidator(config, profilePopup);
 const addPopupValidation = new FormValidator(config, popupAddNewCard);
 
-profilePopupValidation.enableValidation();
-addPopupValidation.enableValidation();
-
 const popupWithForm = new PopupWithForm(popupAddNewCard, handleFormSubmit);
-popupWithForm.setEventListeners();
-
 const popupWithProfile = new PopupWithForm(profilePopup, handleFormSubmit);
-popupWithProfile.setEventListeners();
-
 const popupWithImage = new PopupWithImage(popupOpenImage);
-popupWithImage.setEventListeners();
 
 const userInfo = new UserInfo({
 	userName: '.popup__input_type_name',
 	userJob: '.popup__input_type_job'
-})
-
-profileEditButton.addEventListener("click", (evt) => {
-	evt.preventDefault();
-	const info = userInfo.getUserInfo();
-
-	popupWithProfile.openPopup();
 });
+
+profilePopupValidation.enableValidation();
+addPopupValidation.enableValidation();
+
+popupWithForm.setEventListeners();
+popupWithProfile.setEventListeners();
+popupWithImage.setEventListeners();
 
 //открываем попап по клику на кнопку
 profileAddButton.addEventListener("click", (evt) => {
@@ -92,14 +85,20 @@ profileAddButton.addEventListener("click", (evt) => {
 	popupWithForm.openPopup();
 });
 
-//function handleProfileFormSubmit(evt) {
-//	evt.preventDefault();
-//	profileUserName.textContent = nameInput.value;
-//	profileUserDescription.textContent = jobInput.value;
-//	closePopup(profilePopup);
-//};
-//
-//profileForm.addEventListener("submit", handleProfileFormSubmit);
+profileEditButton.addEventListener("click", (evt) => {
+	evt.preventDefault();
+	popupWithProfile.openPopup();
+});
+
+function handleProfileFormSubmit(evt) {
+	evt.preventDefault();
+	const info = userInfo.getUserInfo();
+	profileUserName.textContent = nameInput.value;
+	profileUserDescription.textContent = jobInput.value;
+	popupWithProfile.closePopup();
+};
+
+profileForm.addEventListener("submit", handleProfileFormSubmit);
 
 //функция создания карточки
 function createCard(item) {
@@ -118,7 +117,6 @@ function createCard(item) {
 function addElement(newElement) {
 	elementContainer.prepend(newElement);
 };
-
 
 const cardList = new Section({
 	data: initialCards,

@@ -6,29 +6,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto</title>
-  <link rel="stylesheet" href="./pages/index.css">
+
 </head>
 
 <body class="root">
   <header class="header">
-    <img class="header__logo" src="./images/Logo_vector.svg" alt="логотип Mesto">
+    <img class="header__logo" src="<%=require('./images/Logo_vector.svg')%>" alt="логотип Mesto">
   </header>
   <main class="page">
     <section class="profile" aria-label="Профиль пользователя">
       <div class="profile__avatar">
-        <img class="profile__image" src="./images/Avatar.svg" alt="Аватар пользователя Жак Ив Кусто">
+        <img class="profile__image" src="<%=require('./images/Avatar.svg')%>" alt="Аватар пользователя Жак Ив Кусто">
       </div>
       <div class="profile__info">
         <div class="profile__name">
           <h1 class="profile__user-name">Жак-Ив Кусто</h1>
           <button class="profile__edit-button" type="button" aria-label="Кнопка Редактировать">
-            <img class="profile__edit-img" src="./images/Edit_icon.svg" alt="Кнопка Редактировать">
+            <img class="profile__edit-img" src="<%=require('./images/Edit_icon.svg')%>" alt="Кнопка Редактировать">
           </button>
         </div>
         <p class="profile__user-description">Исследователь океана</p>
       </div>
       <button class="profile__add-button" type="button" aria-label="Кнопка Добавить">
-        <img class="profile__add-img" src="./images/Add_icon.svg" alt="Кнопка Добавить">
+        <img class="profile__add-img" src="<%=require('./images/Add_icon.svg')%>" alt="Кнопка Добавить">
       </button>
     </section>
     <section class="elements" aria-label="Блок картинок">
@@ -86,7 +86,7 @@
   <footer class="footer">
     <p class="footer__copyright">&copy;2022.Mesto Russia</p>
   </footer>
-  <script src="./scripts/index.js" type="module"></script>
+  <script src="./pages/index.js" type="module"></script>
 
 </body>
 

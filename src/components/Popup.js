@@ -11,7 +11,7 @@ export default class Popup {
             this.closePopup();
         }
     };
-
+    //закрытие по оверлей
     _closeOverlay() {
         const popupList = Array.from(document.querySelectorAll('.popup'));
         popupList.forEach((popupItem) => {
