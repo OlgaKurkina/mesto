@@ -2,7 +2,7 @@ class Section {
 	constructor({ data, renderer }, container) {
 		this._renderedItems = data;
 		this._renderer = renderer;
-		this._container = container;
+		this._container = document.querySelector('.elements__list');
 	};
 
 	renderCards() {
@@ -10,8 +10,8 @@ class Section {
 	};
 
 	addCard(element) {
-		this._container = document.querySelector('.elements__list');
-		this._container.append(element);
+		//this._container = document.querySelector('.elements__list');
+		this._container.prepend(element);
 	};
 }
 

@@ -72,10 +72,7 @@ class FormValidator {
 
 	//метод проверки валидности каждой формы и показа/скрытия ошибок 
 	enableValidation() {
-		this._formElement.addEventListener("submit", (evt) => {
-			evt.preventDefault();
-			this._disabledButton();
-		});
+		this._disabledButton();
 		this._setEventListeners();
 	};
 

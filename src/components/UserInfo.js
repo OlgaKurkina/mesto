@@ -1,7 +1,7 @@
 class UserInfo {
 	constructor({ userName, userJob }) {
-		this._userName = userName;
-		this._userJob = userJob;
+		this._userName = document.querySelector(".popup__input_type_name");
+		this._userJob = document.querySelector(".popup__input_type_job");
 	}
 
 	getUserInfo() {

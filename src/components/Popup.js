@@ -1,6 +1,6 @@
 export default class Popup {
-    constructor(popup) {
-        this._popup = popup;
+    constructor(popupSelector) {
+        this._popupSelector = popupSelector;
         this._handleEscClose = this._handleEscClose.bind(this);
     };
 
@@ -13,29 +13,26 @@ export default class Popup {
     };
     //закрытие по оверлей
     _closeOverlay() {
-        const popupList = Array.from(document.querySelectorAll('.popup'));
-        popupList.forEach((popupItem) => {
-            popupItem.addEventListener('click', (event) => {
-                if (event.target.classList.contains("popup")) {
-                    this.closePopup();
-                };
-            });
+        this._popupSelector.addEventListener('click', (event) => {
+            if (event.target.classList.contains("popup")) {
+                this.closePopup();
+            };
         });
     }
 
     openPopup() {
-        this._popup.classList.add('popup_opened');
+        this._popupSelector.classList.add('popup_opened');
         document.addEventListener("keyup", this._handleEscClose);
     };
 
     closePopup() {
-        this._popup.classList.remove('popup_opened');
+        this._popupSelector.classList.remove('popup_opened');
         document.removeEventListener("keyup", this._handleEscClose);
     };
 
     setEventListeners() {
-        this._popup.querySelector('.close-icon').addEventListener('click', this.closePopup.bind(this));
+        this._popupSelector.querySelector('.close-icon').addEventListener('click', this.closePopup.bind(this));
 
-        this._popup.addEventListener('click', this._closeOverlay());
+        this._popupSelector.addEventListener('click', this._closeOverlay());
     }
 }
