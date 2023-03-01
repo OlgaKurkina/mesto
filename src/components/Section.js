@@ -10,7 +10,6 @@ class Section {
 	};
 
 	addCard(element) {
-		//this._container = document.querySelector('.elements__list');
 		this._container.prepend(element);
 	};
 }

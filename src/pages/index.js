@@ -1,4 +1,4 @@
-import '../pages/index.css'
+import "../pages/index.css"
 
 import Card from "../components/Card.js"
 import FormValidator from "../components/FormValidator.js"
@@ -45,21 +45,16 @@ const config = {
 }
 
 const popupOpenImage = document.querySelector(".popup_open-img"); // попап открытия картинки
-const popupImage = popupOpenImage.querySelector(".popup__image");
-const popupImageTitle = popupOpenImage.querySelector(".popup__image-title");
 const profilePopup = document.querySelector(".profile-popup"); // попап профиля
 const popupAddNewCard = document.querySelector(".popup_add-new"); // попап добавления картинки
 const profileEditButton = document.querySelector(".profile__edit-button"); //кнопка редактирования профиля
-const profileAddButton = document.querySelector(".profile__add-button");
+const popupAddButton = document.querySelector(".profile__add-button");
 const elementContainer = document.querySelector(".elements__list");
-const formAddCard = document.forms['form_add_card']; // форма добавления картинки
-const profileForm = document.forms['profile-form']; //форма редактирования профиля
 const profileUserName = document.querySelector(".profile__user-name");
 const profileUserDescription = document.querySelector(".profile__user-description");
 const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_job");
-const titleInput = document.querySelector(".popup__input_type_element-name");
-const linkInput = document.querySelector(".popup__input_type_element-link");
+
 const profilePopupValidation = new FormValidator(config, profilePopup);
 const popupAddValidation = new FormValidator(config, popupAddNewCard);
 
@@ -80,9 +75,10 @@ popupWithProfile.setEventListeners();
 popupWithImage.setEventListeners();
 
 //открываем попап по клику на кнопку
-profileAddButton.addEventListener("click", (evt) => {
+popupAddButton.addEventListener("click", (evt) => {
 	evt.preventDefault();
 	popupWithForm.openPopup();
+	popupAddValidation.disabledButton();
 });
 
 profileEditButton.addEventListener("click", (evt) => {
@@ -115,12 +111,12 @@ const cardList = new Section({
 
 cardList.renderCards();
 
-function handleFormSubmit() {
+function handleFormSubmit(data) {
 	const newCard = createCard({
-		name: titleInput.value,
-		link: linkInput.value,
+		name: data['element-name'],
+		link: data['element-link']
 	});
-	cardList.addCard(newCard);
+	cardList.addCard(newCard)
 	popupWithForm.closePopup();
 };
 

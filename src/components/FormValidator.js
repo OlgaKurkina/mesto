@@ -43,7 +43,7 @@ class FormValidator {
 	};
 
 	//метод отключения кнопки при открытии формы
-	_disabledButton() {
+	disabledButton() {
 		this._buttonElement.classList.add(this._inactiveButtonClass);
 		this._buttonElement.setAttribute("disabled", "disabled");
 	};
@@ -52,7 +52,7 @@ class FormValidator {
 	_toggleButtonState = () => {
 
 		if (this._hasInvalidInput()) {
-			this._disabledButton()
+			this.disabledButton()
 		}
 		else {
 			this._buttonElement.classList.remove(this._inactiveButtonClass);
@@ -72,10 +72,9 @@ class FormValidator {
 
 	//метод проверки валидности каждой формы и показа/скрытия ошибок 
 	enableValidation() {
-		this._disabledButton();
+		this.disabledButton();
 		this._setEventListeners();
 	};
-
 }
 
 export default FormValidator
