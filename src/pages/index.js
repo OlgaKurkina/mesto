@@ -58,9 +58,34 @@ const jobInput = document.querySelector(".popup__input_type_job");
 const profilePopupValidation = new FormValidator(config, profilePopup);
 const popupAddValidation = new FormValidator(config, popupAddNewCard);
 
-const popupWithForm = new PopupWithForm(popupAddNewCard, handleFormSubmit);
-const popupWithProfile = new PopupWithForm(profilePopup, handleProfileFormSubmit);
-const popupWithImage = new PopupWithImage(popupOpenImage);
+const popupWithForm = new PopupWithForm({
+	popup: ".popup_add-new", 
+	handleFormSubmit: (data) => {
+		const newCard = createCard({
+			name: data['element-name'],
+			link: data['element-link']
+		});
+		cardList.addCard(newCard)
+		popupWithForm.closePopup();
+	}
+});
+	
+const popupWithProfile = new PopupWithForm({
+	popup: ".profile-popup", 
+	handleFormSubmit: (data) => {
+		userInfo.setUserInfo({
+			name: data['name'],
+			job: data['about']
+		})
+		
+		console.log(userInfo)
+		popupWithProfile.closePopup();
+	}
+});
+
+const popupWithImage = new PopupWithImage({
+	popup: ".popup_open-img"
+});
 
 const userInfo = new UserInfo({
 	userName: '.popup__input_type_name',
@@ -111,18 +136,44 @@ const cardList = new Section({
 
 cardList.renderCards();
 
-function handleFormSubmit(data) {
-	const newCard = createCard({
-		name: data['element-name'],
-		link: data['element-link']
-	});
-	cardList.addCard(newCard)
-	popupWithForm.closePopup();
-};
+//function handleFormSubmit(data) {
+//	const newCard = createCard({
+//		name: data['element-name'],
+//		link: data['element-link']
+//	});
+//	cardList.addCard(newCard)
+//	popupWithForm.closePopup();
+//};
 
-function handleProfileFormSubmit() {
-	const info = userInfo.getUserInfo();
-	profileUserName.textContent = nameInput.value;
-	profileUserDescription.textContent = jobInput.value;
-	popupWithProfile.closePopup();
-};
+//function handleProfileFormSubmit(data) {
+//	console.log(data)
+//	
+//	userInfo.setUserInfo({
+//		name: data['name'],
+//		job: data['about']
+//	})
+//	
+//	console.log(userInfo)
+//	popupWithProfile.closePopup();
+//};
+//функция открытия попапа профиля и занесения  информации в инпуты
+//profileEditingButton.addEventListener('click', () => {
+	//const info = userInfo.getUserInfo();
+	//addInfoInProfile({ //вызывали ф-ю добавления значений из инпутов
+	 // username: info.username,
+	//  job: info.job
+	//});
+  // открыли попап
+ // });
+
+ //создание попапа профиля 
+//const editProfilePopup = new PopupWithForm({
+//	popupSelector: '.popup_type_edit',
+//	handleFormSubmit: (data) => {
+//	  userInfo.setUserInfo({
+//		username: data.username,
+//		job: data.job
+//	  });
+//	  editProfilePopup.close();
+//	}
+//  });
