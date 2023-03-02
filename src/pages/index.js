@@ -61,10 +61,13 @@ const popupAddValidation = new FormValidator(config, popupAddNewCard);
 const popupWithForm = new PopupWithForm({
 	popup: ".popup_add-new", 
 	handleFormSubmit: (data) => {
+		console.log(data)
+		
 		const newCard = createCard({
 			name: data['element-name'],
 			link: data['element-link']
 		});
+		console.log(newCard)
 		cardList.addCard(newCard)
 		popupWithForm.closePopup();
 	}
@@ -73,6 +76,8 @@ const popupWithForm = new PopupWithForm({
 const popupWithProfile = new PopupWithForm({
 	popup: ".profile-popup", 
 	handleFormSubmit: (data) => {
+		console.log(data)
+		
 		userInfo.setUserInfo({
 			name: data['name'],
 			job: data['about']
@@ -132,7 +137,7 @@ const cardList = new Section({
 		const card = createCard(item);
 		cardList.addCard(card)
 	},
-}, elementContainer);
+}, '.elements__list');
 
 cardList.renderCards();
 
