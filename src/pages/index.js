@@ -44,12 +44,10 @@ const config = {
 	errorClass: 'popup__input-error_active'
 }
 
-const popupOpenImage = document.querySelector(".popup_open-img"); // попап открытия картинки
 const profilePopup = document.querySelector(".profile-popup"); // попап профиля
 const popupAddNewCard = document.querySelector(".popup_add-new"); // попап добавления картинки
 const profileEditButton = document.querySelector(".profile__edit-button"); //кнопка редактирования профиля
 const popupAddButton = document.querySelector(".profile__add-button");
-const elementContainer = document.querySelector(".elements__list");
 const profileUserName = document.querySelector(".profile__user-name");
 const profileUserDescription = document.querySelector(".profile__user-description");
 const nameInput = document.querySelector(".popup__input_type_name");
@@ -59,31 +57,25 @@ const profilePopupValidation = new FormValidator(config, profilePopup);
 const popupAddValidation = new FormValidator(config, popupAddNewCard);
 
 const popupWithForm = new PopupWithForm({
-	popup: ".popup_add-new", 
+	popup: ".popup_add-new",
 	handleFormSubmit: (data) => {
-		console.log(data)
-		
+
 		const newCard = createCard({
 			name: data['element-name'],
 			link: data['element-link']
 		});
-		console.log(newCard)
 		cardList.addCard(newCard)
 		popupWithForm.closePopup();
 	}
 });
-	
+
 const popupWithProfile = new PopupWithForm({
-	popup: ".profile-popup", 
+	popup: ".profile-popup",
 	handleFormSubmit: (data) => {
-		console.log(data)
-		
 		userInfo.setUserInfo({
 			name: data['name'],
 			job: data['about']
 		})
-		
-		console.log(userInfo)
 		popupWithProfile.closePopup();
 	}
 });
@@ -93,8 +85,8 @@ const popupWithImage = new PopupWithImage({
 });
 
 const userInfo = new UserInfo({
-	userName: '.popup__input_type_name',
-	userJob: '.popup__input_type_job'
+	userName: '.profile__user-name',
+	userJob: '.profile__user-description'
 });
 
 profilePopupValidation.enableValidation();
@@ -140,45 +132,3 @@ const cardList = new Section({
 }, '.elements__list');
 
 cardList.renderCards();
-
-//function handleFormSubmit(data) {
-//	const newCard = createCard({
-//		name: data['element-name'],
-//		link: data['element-link']
-//	});
-//	cardList.addCard(newCard)
-//	popupWithForm.closePopup();
-//};
-
-//function handleProfileFormSubmit(data) {
-//	console.log(data)
-//	
-//	userInfo.setUserInfo({
-//		name: data['name'],
-//		job: data['about']
-//	})
-//	
-//	console.log(userInfo)
-//	popupWithProfile.closePopup();
-//};
-//функция открытия попапа профиля и занесения  информации в инпуты
-//profileEditingButton.addEventListener('click', () => {
-	//const info = userInfo.getUserInfo();
-	//addInfoInProfile({ //вызывали ф-ю добавления значений из инпутов
-	 // username: info.username,
-	//  job: info.job
-	//});
-  // открыли попап
- // });
-
- //создание попапа профиля 
-//const editProfilePopup = new PopupWithForm({
-//	popupSelector: '.popup_type_edit',
-//	handleFormSubmit: (data) => {
-//	  userInfo.setUserInfo({
-//		username: data.username,
-//		job: data.job
-//	  });
-//	  editProfilePopup.close();
-//	}
-//  });
