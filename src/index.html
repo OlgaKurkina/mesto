@@ -16,7 +16,10 @@
   <main class="page">
     <section class="profile" aria-label="Профиль пользователя">
       <div class="profile__avatar">
-        <img class="profile__image" src="<%=require('./images/Avatar.svg')%>" alt="Аватар пользователя Жак Ив Кусто">
+        <button class="profile__avatar-button" type="button" aria-label="Редактировать аватар">
+          <img class="profile__image" src="<%=require('./images/Avatar.svg')%>" alt="Аватар пользователя">
+
+        </button>
       </div>
       <div class="profile__info">
         <div class="profile__name">
@@ -36,10 +39,13 @@
         <template id="element__template" class="element__template">
           <li class="element">
             <img class="element__img" alt="Новая картинка">
-            <button class="element__trash" type="button"></button>
+            <button class="element__trash element__trash_hidden" type="button"></button>
             <div class="element__content">
               <h2 class="element__name"></h2>
-              <button class="element__like" type="button"></button>
+              <div class="element__like-container">
+                <button class="element__like" type="button"></button>
+                <h3 class="element__like-counter">1</h3>
+              </div>
             </div>
           </li>
         </template>
@@ -82,9 +88,31 @@
         <button class="close-icon"></button>
       </div>
     </div>
+    <div class="popup popup_form-submit">
+      <div class="popup__container">
+        <form class="popup__form popup__form_type_submit" name="form-submit" method="post" novalidate>
+          <h2 class="popup__container-name">Вы уверены?</h2>
+          <button class="popup__button popup__button_delete-img" type="submit" name="submit" id="submit">Да</button>
+        </form>
+        <button class="close-icon"></button>
+      </div>
+    </div>
+    <div class="popup popup_edit-avatar">
+      <div class="popup__container">
+        <h2 class="popup__container-name">Обновить аватар</h2>
+        <form class="popup__form" name="profile-form" method="post" novalidate>
+          <input class="popup__input popup__input_edit_avatar" type="url" name="avatar" id="avatar"
+            placeholder="Ссылка на аватар" required>
+          <span class="popup__input-error avatar-error"></span>
+
+          <button class="popup__button" type="submit" name="submit" id="submit">Сохранить</button>
+        </form>
+        <button class="close-icon"></button>
+      </div>
+    </div>
   </main>
   <footer class="footer">
-    <p class="footer__copyright">&copy;2022.Mesto Russia</p>
+    <p class="footer__copyright">&copy;2023.Mesto Russia</p>
   </footer>
 
 </body>
