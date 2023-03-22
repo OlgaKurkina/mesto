@@ -1,5 +1,5 @@
 class Card {
-	constructor({ item, template, handleCardClick, openPopup, handlePopupFormSubmit }) {
+	constructor({ item, template, userId, handleCardClick, handlePopupFormSubmit, handleLikeCard, openPopup }) {
 		this._template = template;
 		this._name = item.name;
 		this._link = item.link;
@@ -11,10 +11,13 @@ class Card {
 		this._openPopup = openPopup;
 		this._likeButton = this._element.querySelector('.element__like');
 		this._deleteButton = this._element.querySelector('.element__trash');
-		this._isOwner = item.owner._id;
-		this._handlePopupFormSubmit = handlePopupFormSubmit
+		this._isOwner = item.owner._id === userId;
+		this._handlePopupFormSubmit = handlePopupFormSubmit;
+		this._handleLikeCard = handleLikeCard;
+		this._likes = item.likes;
+		this._userId = userId;
+		this._likeCounter = this._element.querySelector('.element__like-counter')
 	}
-
 	//получаем разметку
 	_getTemplate() {
 		const cardElement = document.querySelector(this._template)
@@ -29,28 +32,43 @@ class Card {
 		this._cardTitile.textContent = this._name;
 		this._cardImage.src = this._link;
 		this._cardImage.alt = this._name;
-		this._isOwner = this.owner._id;
-		this._likeCounter = document.querySelector('.element__like-counter')
 		this._setEventListeners();
 		if (!this._isOwner) {
-			this._element.classList.add('element__trash_hidden');
+			this._element.querySelector('.element__trash').remove();
 		}
+		this.setLikeData();
+
 		return this._element;
 	}
 
-	//метод удаления карточки
-	deleteCard() {
+	isLikedCard() {
+		return this._likes.some(like => like._id === this._userId)
+	}
 
-		this._element.remove()
+	setLikeData() {
+		if (this.isLikedCard()) {
+			this._likeButton.classList.add('element__like_active');
+		} else {
+			this._likeButton.classList.remove('element__like_active');
+		}
+		this._likeCounter.textContent = this._likes.length
+	}
+
+	updateLikes(likes) {
+		this._likes = likes;
+		this.setLikeData()
 	}
 
 	//метод установка лайка
-	_likeCard() {
-		this._likeButton.classList.toggle('element__like_active');
-	}
+	//_likeCard() {
+	//	this._likeButton.classList.toggle('element__like_active');
+	//}
 
 	countLikes(data) {
 		this._likeCounter.textContent = data.length
+	}
+	deleteCard() {
+		this._element.remove()
 	}
 
 	//слушатели событый
@@ -60,7 +78,7 @@ class Card {
 			this._handlePopupFormSubmit();
 		});
 		this._likeButton.addEventListener('click', () => {
-			this._likeCard();
+			this._handleLikeCard();
 		});
 		this._cardImage.addEventListener('click', () => {
 			this._handleCardClick();

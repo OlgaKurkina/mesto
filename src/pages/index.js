@@ -52,16 +52,18 @@ const popupWithForm = new PopupWithForm({
 	}
 });
 
+let userId
+
 //функция создания карточки
 function createCard(item) {
 	const newCard = new Card({
 		item,
 		template: config.selectorTemplate,
+		userId,
 		handleCardClick: () =>
 			popupWithImage.openPopup(item),
-		handlePopupFormSubmit: () => {
-			popupFormSubmit.openPopup();
-		}
+		handlePopupFormSubmit: () =>
+			popupFormSubmit.openPopup(),
 	});
 	const cardElement = newCard.generateCard();
 	return cardElement;
@@ -81,7 +83,6 @@ const popupFormSubmit = new PopupWithSubmit({
 	}
 })
 
-
 popupFormSubmit.setEventListeners()
 
 const userInfo = new UserInfo({
@@ -93,8 +94,8 @@ const userInfo = new UserInfo({
 const popupWithProfile = new PopupWithForm({
 	popup: ".profile-popup",
 	handleFormSubmit: (data) => {
-		//	api.getUserData();
-		api.updateUserData(data)
+
+		api.updateUserData(data) //return , добавить в попап метод isLoading
 			.then((userData) => {
 				userInfo.setUserInfo(userData)
 			})
@@ -152,8 +153,6 @@ popupEditUserAvatar.addEventListener('click', (evt) => {
 	popupEditAvatar.openPopup();
 })
 
-
-
 const cardList = new Section({
 
 	renderer: (item) => {
@@ -161,8 +160,6 @@ const cardList = new Section({
 		cardList.addCard(card)
 	},
 }, '.elements__list');
-
-let user
 
 const api = new Api(
 	'https://mesto.nomoreparties.co/v1/cohort-61',
@@ -172,7 +169,7 @@ const api = new Api(
 Promise.all([api.getCards(), api.getUserData()])
 	.then(([cards, userData]) => {
 
-		user = userData.id;
+		userId = userData._id;
 		console.log(userData)
 		userInfo.setUserInfo(userData);
 		userInfo.setUserAvatar({ avatar: userData.avatar });

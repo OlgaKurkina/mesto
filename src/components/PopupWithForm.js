@@ -14,6 +14,9 @@ class PopupWithForm extends Popup {
 
 		return this._formValues;
 	}
+	isLoading() {
+
+	}
 
 	setEventListeners() {
 		super.setEventListeners();
