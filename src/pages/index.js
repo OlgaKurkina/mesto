@@ -37,6 +37,7 @@ const popupAddValidation = new FormValidator(config, popupAddNewCard);
 const popupWithForm = new PopupWithForm({
 	popup: ".popup_add-new",
 	handleFormSubmit: (data) => {
+		handleLoading(".popup_add-new", true);
 		api.addNewCard({
 			name: data['element-name'],
 			link: data['element-link']
@@ -44,6 +45,7 @@ const popupWithForm = new PopupWithForm({
 			.then((newItem) => {
 				const card = createCard(newItem)
 				cardList.addCard(card);
+				handleLoading(popupWithForm, false);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -64,6 +66,27 @@ function createCard(item) {
 			popupWithImage.openPopup(item),
 		handlePopupFormSubmit: () =>
 			popupFormSubmit.openPopup(),
+		handleLikeCard: (card) => {
+			if (card.isLikedCard()) {
+				api.unsetLike(card)
+					.then((card) => {
+						card.setLikeData(card);
+						updateLikes()
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			} else {
+				api.setLike(card)
+					.then((card) => {
+						card.setLikeData(card);
+						updateLikes()
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+		}
 	});
 	const cardElement = newCard.generateCard();
 	return cardElement;
@@ -72,10 +95,12 @@ function createCard(item) {
 const popupFormSubmit = new PopupWithSubmit({
 	popup: '.popup_form-submit',
 	handleFormSubmit: (id) => {
+		handleLoading('.popup_form-submit', true);
 		api.deleteMyCard(id)
-			.then((item) => {
-				item.deleteCard();
+			.then((card) => {
+				card.remove();
 				popupFormSubmit.closePopup();
+				handleLoading('.popup_form-submit', false)
 			})
 			.catch((err) => {
 				console.log(err)
@@ -92,12 +117,13 @@ const userInfo = new UserInfo({
 });
 
 const popupWithProfile = new PopupWithForm({
-	popup: ".profile-popup",
+	popup: '.profile-popup',
 	handleFormSubmit: (data) => {
-
-		api.updateUserData(data) //return , добавить в попап метод isLoading
+		handleLoading('.profile-popup', true);
+		api.updateUserData(data)
 			.then((userData) => {
-				userInfo.setUserInfo(userData)
+				userInfo.setUserInfo(userData);
+				handleLoading('.profile-popup', false)
 			})
 			.catch((err) => {
 				console.log(err);
@@ -112,13 +138,15 @@ const popupWithImage = new PopupWithImage({
 });
 
 const popupEditAvatar = new PopupWithForm({
-	popup: ".popup_edit-avatar",
+	popup: '.popup_edit-avatar',
 	handleFormSubmit: (data) => {
+		handleLoading('.popup_edit-avatar', true);
 		api.updateUserAvatar(data)
 			.then((data) => {
 				userInfo.setUserAvatar({
 					avatar: data['avatar']
-				})
+				});
+				handleLoading('.popup_edit-avatar', false)
 			})
 			.catch((err) => {
 				console.log(err);
@@ -126,6 +154,14 @@ const popupEditAvatar = new PopupWithForm({
 		popupEditAvatar.closePopup()
 	}
 })
+
+//функция смены названия кнопки
+function handleLoading(popup, isLoading) {
+	const btnLoading = document.querySelector(popup).querySelector('.popup__button')
+	if (isLoading) {
+		btnLoading.textContent = 'Сохранение...'
+	} else { btnLoading.textContent = 'Готово' }
+}
 
 profilePopupValidation.enableValidation();
 popupAddValidation.enableValidation();
