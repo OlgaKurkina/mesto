@@ -63,7 +63,6 @@ class Card {
 
   updateLikes(likes) {
     this._likes = likes;
-    console.log(this._likes)
     this.setLikeData()
     this.countLikes(likes)
   }

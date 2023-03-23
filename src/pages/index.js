@@ -36,7 +36,7 @@ const popupChangeAvatar = new FormValidator(config, popupUpdateAvatar);
 const popupWithForm = new PopupWithForm({
   popup: ".popup_add-new",
   handleFormSubmit: (data) => {
-    handleLoading(".popup_add-new", true);
+    popupWithForm.handleLoading(true);
     api.addNewCard({
       name: data['element-name'],
       link: data['element-link']
@@ -44,12 +44,14 @@ const popupWithForm = new PopupWithForm({
       .then((newItem) => {
         const card = createCard(newItem)
         cardList.addCard(card);
-        handleLoading(popupWithForm, false);
+        popupWithForm.closePopup();
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        popupWithForm.handleLoading(false);
       });
-    popupWithForm.closePopup();
   }
 });
 
@@ -114,12 +116,10 @@ function createCard(item) {
 const popupFormSubmit = new PopupWithSubmit({
   popup: '.popup_form-submit',
   handleFormSubmit: (item) => {
-    handleLoading('.popup_form-submit', true);
     api.deleteMyCard(item._id)
       .then(() => {
         item.deleteCard();
         popupFormSubmit.closePopup();
-        handleLoading('.popup_form-submit', false)
       })
       .catch((err) => {
         console.log(err)
@@ -137,17 +137,18 @@ const userInfo = new UserInfo({
 const popupWithProfile = new PopupWithForm({
   popup: '.profile-popup',
   handleFormSubmit: (data) => {
-    handleLoading('.profile-popup', true);
+    popupWithProfile.handleLoading(true);
     api.updateUserData(data)
       .then((userData) => {
         userInfo.setUserInfo(userData);
-        handleLoading('.profile-popup', false)
+        popupWithProfile.closePopup();
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        popupWithProfile.handleLoading(false)
       });
-
-    popupWithProfile.closePopup();
   }
 });
 
@@ -158,28 +159,31 @@ const popupWithImage = new PopupWithImage({
 const popupEditAvatar = new PopupWithForm({
   popup: '.popup_edit-avatar',
   handleFormSubmit: (data) => {
-    handleLoading('.popup_edit-avatar', true);
+    popupEditAvatar.handleLoading(true);
     api.updateUserAvatar(data)
       .then((data) => {
         userInfo.setUserAvatar({
           avatar: data['avatar']
         });
-        handleLoading('.popup_edit-avatar', false)
+        popupEditAvatar.closePopup()
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        popupEditAvatar.handleLoading(false)
       });
-    popupEditAvatar.closePopup()
   }
 })
 
 //функция смены названия кнопки
-function handleLoading(popup, isLoading) {
-  const btnLoading = document.querySelector(popup).querySelector('.popup__button')
-  if (isLoading) {
-    btnLoading.textContent = 'Сохранение...'
-  } else { btnLoading.textContent = 'Готово' }
-}
+//function handleLoading(popupSelector, isLoading) {
+//  const btnLoading = document.querySelector(popupSelector).querySelector('.popup__button');
+//  console.log(document.querySelector(popupSelector));
+//  if (isLoading) {
+//    btnLoading.textContent = 'Сохранение...'
+//  } else { btnLoading.textContent = 'Готово' }
+//}
 
 profilePopupValidation.enableValidation();
 popupAddValidation.enableValidation();
