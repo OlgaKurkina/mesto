@@ -10,7 +10,7 @@
   padding: 0 0 8px 0;
 }
 
-.popup__input:last-of-type {
+.popup__input:nth-child(2n) {
   margin-top: 13px;
 }
 
