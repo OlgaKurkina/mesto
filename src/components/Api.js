@@ -1,16 +1,10 @@
 class Api {
-  constructor(basePath, token) {
+  constructor({ basePath, headers }) {
     this._basePath = basePath;
-    this._token = token
+    this._headers = headers;
   }
 
-  _getHeaders() {
-    return {
-      authorization: this._token,
-      "Content-Type": "application/json",
-    }
-  }
-
+  //получение ответа от сервера
   _getJson(res) {
     if (res.ok) {
       return res.json();
@@ -18,19 +12,19 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  //получили карточки с сервера
+  //получение карточки с сервера
   getCards() {
     return fetch(`${this._basePath}/cards`, {
-      headers: this._getHeaders(),
+      headers: this._headers,
     })
       .then(this._getJson);
   }
 
-  //добавили новую карточку на сервер
+  //добавление новой карточки на сервер
   addNewCard(data) {
     return fetch(`${this._basePath}/cards`, {
       method: "POST",
-      headers: this._getHeaders(),
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -39,20 +33,20 @@ class Api {
       .then(this._getJson);
   }
 
-  //получили данные пользователя
+  //получение данных пользователя
   getUserData() {
     return fetch(`${this._basePath}/users/me`, {
       method: "GET",
-      headers: this._getHeaders(),
+      headers: this._headers,
     })
       .then(this._getJson);
   }
 
-  //обновляем данные пользователя 
+  //обновление данных пользователя 
   updateUserData(data) {
     return fetch(`${this._basePath}/users/me`, {
       method: "PATCH",
-      headers: this._getHeaders(),
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about
@@ -61,11 +55,11 @@ class Api {
       .then(this._getJson);
   }
 
-  //обновили аватар
+  //обновление аватара
   updateUserAvatar(avatar) {
     return fetch(`${this._basePath}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._getHeaders(),
+      headers: this._headers,
       body: JSON.stringify(avatar),
     })
       .then(this._getJson);
@@ -75,15 +69,16 @@ class Api {
   deleteMyCard(id) {
     return fetch(`${this._basePath}/cards/${id}`, {
       method: "DELETE",
-      headers: this._getHeaders(),
+      headers: this._headers,
     })
       .then(this._getJson);
   }
+
   //ставим лайк
   setLike(id, card) {
     return fetch(`${this._basePath}/cards/${id}/likes`, {
       method: "PUT",
-      headers: this._getHeaders(),
+      headers: this._headers,
       body: JSON.stringify(card),
     })
       .then(this._getJson);
@@ -93,7 +88,7 @@ class Api {
   unsetLike(id, card) {
     return fetch(`${this._basePath}/cards/${id}/likes`, {
       method: "DELETE",
-      headers: this._getHeaders(),
+      headers: this._headers,
       body: JSON.stringify(card),
     })
       .then(this._getJson);

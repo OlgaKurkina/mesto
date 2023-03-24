@@ -63,10 +63,13 @@ const cardList = new Section({
   },
 }, '.elements__list');
 
-const api = new Api(
-  'https://mesto.nomoreparties.co/v1/cohort-61',
-  '9fcb3909-3689-4058-8869-85eda4cfd0db'
-);
+const api = new Api({
+  basePath: 'https://mesto.nomoreparties.co/v1/cohort-61',
+  headers: {
+    authorization: '9fcb3909-3689-4058-8869-85eda4cfd0db',
+    "Content-Type": "application/json"
+  }
+});
 
 Promise.all([api.getCards(), api.getUserData()])
   .then(([cards, userData]) => {
@@ -176,15 +179,6 @@ const popupEditAvatar = new PopupWithForm({
   }
 })
 
-//функция смены названия кнопки
-//function handleLoading(popupSelector, isLoading) {
-//  const btnLoading = document.querySelector(popupSelector).querySelector('.popup__button');
-//  console.log(document.querySelector(popupSelector));
-//  if (isLoading) {
-//    btnLoading.textContent = 'Сохранение...'
-//  } else { btnLoading.textContent = 'Готово' }
-//}
-
 profilePopupValidation.enableValidation();
 popupAddValidation.enableValidation();
 popupChangeAvatar.enableValidation();
@@ -206,6 +200,7 @@ profileEditButton.addEventListener("click", (evt) => {
   evt.preventDefault();
   nameInput.value = profileUserName.textContent;
   jobInput.value = profileUserDescription.textContent;
+  console.log(userInfo)
   popupWithProfile.openPopup();
 });
 
