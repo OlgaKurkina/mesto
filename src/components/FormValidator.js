@@ -50,7 +50,6 @@ class FormValidator {
 
   //метод переключения кнопки
   _toggleButtonState = () => {
-
     if (this._hasInvalidInput()) {
       this.disabledButton()
     }
@@ -59,6 +58,13 @@ class FormValidator {
       this._buttonElement.removeAttribute("disabled", "disabled");
     };
   };
+
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement)
+    })
+  }
 
   _setEventListeners = () => {
     this._toggleButtonState();

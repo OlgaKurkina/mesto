@@ -77,7 +77,6 @@ class Card {
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick();
     });
-
   };
 }
 

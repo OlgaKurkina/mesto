@@ -1,5 +1,18 @@
 import "../pages/index.css"
 
+import {
+  config,
+  profileForm,
+  formAddNewCard,
+  profileEditButton,
+  popupAddButton,
+  nameInput,
+  jobInput,
+  popupEditUserAvatar,
+  popupUpdateAvatar
+}
+  from "../utils/constants.js"
+
 import Card from "../components/Card.js"
 import FormValidator from "../components/FormValidator.js"
 import Section from "../components/Section.js"
@@ -7,50 +20,30 @@ import PopupWithImage from "../components/PopupWithImage.js"
 import PopupWithForm from "../components/PopupWithForm.js"
 import PopupWithSubmit from "../components/PopupWithSubmit.js"
 import UserInfo from "../components/UserInfo.js"
-import Api from "../components/Api"
+import Api from "../components/Api.js"
 
-const config = {
-  selectorTemplate: '.element__template',
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-}
+const profilePopupValidation = new FormValidator(config, profileForm);
+const popupAddValidation = new FormValidator(config, formAddNewCard);
+const avatarFormValidator = new FormValidator(config, popupUpdateAvatar);
 
-const profilePopup = document.querySelector(".profile-popup"); // попап профиля
-const popupAddNewCard = document.querySelector(".popup_add-new"); // попап добавления картинки
-const profileEditButton = document.querySelector(".profile__edit-button"); //кнопка редактирования профиля
-const popupAddButton = document.querySelector(".profile__add-button");
-const profileUserName = document.querySelector(".profile__user-name");
-const profileUserDescription = document.querySelector(".profile__user-description");
-const nameInput = document.querySelector(".popup__input_type_name");
-const jobInput = document.querySelector(".popup__input_type_job");
-const popupEditUserAvatar = document.querySelector('.profile__avatar-button') // кнопка редактирования аватара
-const popupUpdateAvatar = document.querySelector('.popup_edit-avatar')
-const profilePopupValidation = new FormValidator(config, profilePopup);
-const popupAddValidation = new FormValidator(config, popupAddNewCard);
-const popupChangeAvatar = new FormValidator(config, popupUpdateAvatar);
-
-const popupWithForm = new PopupWithForm({
+const popupWithAddCard = new PopupWithForm({
   popup: ".popup_add-new",
   handleFormSubmit: (data) => {
-    popupWithForm.handleLoading(true);
+    popupWithAddCard.handleLoading(true);
     api.addNewCard({
       name: data['element-name'],
       link: data['element-link']
     })
       .then((newItem) => {
-        const card = createCard(newItem)
+        const card = createCard(newItem);
         cardList.addCard(card);
-        popupWithForm.closePopup();
+        popupWithAddCard.closePopup();
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        popupWithForm.handleLoading(false);
+        popupWithAddCard.handleLoading(false);
       });
   }
 });
@@ -75,7 +68,6 @@ Promise.all([api.getCards(), api.getUserData()])
   .then(([cards, userData]) => {
     userId = userData._id;
     userInfo.setUserInfo(userData);
-    userInfo.setUserAvatar({ avatar: userData.avatar });
     cardList.renderCards(cards);
   })
   .catch((err) => {
@@ -91,7 +83,7 @@ function createCard(item) {
     handleCardClick: () =>
       popupWithImage.openPopup(item),
     handlePopupFormSubmit: (itemId) =>
-      popupFormSubmit.openPopup(itemId),
+      confirmationPopup.openPopup(itemId),
     handleLikeCard: (card) => {
       if (card.isLikedCard()) {
         api.unsetLike(card._id)
@@ -116,13 +108,13 @@ function createCard(item) {
   return cardElement;
 };
 
-const popupFormSubmit = new PopupWithSubmit({
+const confirmationPopup = new PopupWithSubmit({
   popup: '.popup_form-submit',
   handleFormSubmit: (item) => {
     api.deleteMyCard(item._id)
       .then(() => {
         item.deleteCard();
-        popupFormSubmit.closePopup();
+        confirmationPopup.closePopup();
       })
       .catch((err) => {
         console.log(err)
@@ -134,14 +126,13 @@ const userInfo = new UserInfo({
   userName: '.profile__user-name',
   userJob: '.profile__user-description',
   profileAvatar: '.profile__image',
-
 });
 
 const popupWithProfile = new PopupWithForm({
   popup: '.profile-popup',
-  handleFormSubmit: (data) => {
+  handleFormSubmit: ({ name, about, _id }) => {
     popupWithProfile.handleLoading(true);
-    api.updateUserData(data)
+    api.updateUserData({ name, about, _id })
       .then((userData) => {
         userInfo.setUserInfo(userData);
         popupWithProfile.closePopup();
@@ -161,13 +152,11 @@ const popupWithImage = new PopupWithImage({
 
 const popupEditAvatar = new PopupWithForm({
   popup: '.popup_edit-avatar',
-  handleFormSubmit: (data) => {
+  handleFormSubmit: ({ avatar }) => {
     popupEditAvatar.handleLoading(true);
-    api.updateUserAvatar(data)
+    api.updateUserAvatar({ avatar })
       .then((data) => {
-        userInfo.setUserAvatar({
-          avatar: data['avatar']
-        });
+        userInfo.setUserInfo(data);
         popupEditAvatar.closePopup()
       })
       .catch((err) => {
@@ -181,32 +170,34 @@ const popupEditAvatar = new PopupWithForm({
 
 profilePopupValidation.enableValidation();
 popupAddValidation.enableValidation();
-popupChangeAvatar.enableValidation();
+avatarFormValidator.enableValidation();
 
-popupWithForm.setEventListeners();
+popupWithAddCard.setEventListeners();
 popupWithProfile.setEventListeners();
 popupWithImage.setEventListeners();
 popupEditAvatar.setEventListeners();
-popupFormSubmit.setEventListeners()
+confirmationPopup.setEventListeners()
 
 //открываем попап по клику на кнопку
 popupAddButton.addEventListener("click", (evt) => {
   evt.preventDefault();
-  popupWithForm.openPopup();
-  popupAddValidation.disabledButton();
+  popupWithAddCard.openPopup();
+  popupAddValidation.resetValidation()
 });
 
 profileEditButton.addEventListener("click", (evt) => {
   evt.preventDefault();
-  nameInput.value = profileUserName.textContent;
-  jobInput.value = profileUserDescription.textContent;
-  console.log(userInfo)
+  const { about, name } = userInfo.getUserInfo();
+  nameInput.value = name;
+  jobInput.value = about;
   popupWithProfile.openPopup();
+  profilePopupValidation.resetValidation()
 });
 
 popupEditUserAvatar.addEventListener('click', (evt) => {
   evt.preventDefault();
   popupEditAvatar.openPopup();
+  avatarFormValidator.resetValidation()
 })
 
 

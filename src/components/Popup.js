@@ -11,6 +11,7 @@ export default class Popup {
       this.closePopup();
     }
   };
+
   //закрытие по оверлей
   _closeOverlay() {
     this._popup.addEventListener('click', (event) => {
@@ -29,8 +30,6 @@ export default class Popup {
     this._popup.classList.remove('popup_opened');
     document.removeEventListener("keyup", this._handleEscClose);
   };
-
-
 
   setEventListeners() {
     this._popup.querySelector('.close-icon').addEventListener('click', this.closePopup.bind(this));

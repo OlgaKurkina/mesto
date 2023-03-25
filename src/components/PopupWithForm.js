@@ -33,8 +33,9 @@ class PopupWithForm extends Popup {
   handleLoading(isLoading, loadingText = 'Сохранение...') {
     if (isLoading) {
       this._btnLoading.textContent = loadingText;
-    } else { this._btnLoading.textContent = this._btnLoadingText }
-    this._form.reset();
+    } else {
+      this._btnLoading.textContent = this._btnLoadingText
+    }
   }
 }
 
